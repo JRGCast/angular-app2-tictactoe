@@ -1,0 +1,25 @@
+<div style="display: flex; flex-direction: column; text-align: center;">
+  <button nbButton hero status="danger" (click)="newGame()"> Start new Game </button>
+  <div>
+    <h4>Input players names</h4>
+    <label> Player 1 name<input type="text" (input)="playerNaming(1, $event)" />
+    </label>
+    <label> Player 2 name<input type="text" (input)="playerNaming(2, $event)" />
+    </label>
+    <div style="display: flex; flex-direction: row wrap; width: 50%; justify-content: space-between;">
+      <h5>X Player: {{player1.playerName}}</h5>
+      <h5>O Player: {{player2.playerName}}</h5>
+    </div>
+  </div>
+  <!-- Winner -->
+  <section *ngIf="theWinner else gameOn">
+    <h1>Winner is {{theWinner}}</h1>
+  </section>
+  <ng-template #gameOn>
+    <p>É a vez de {{currPlayer.playerName}}</p>
+    <main>
+      <ticTacToe-cell *ngFor="let cell of allSquares; let i = index" [cellValue]="cell" (click)="playerAction(i)">
+      </ticTacToe-cell>
+    </main>
+  </ng-template>
+</div>
