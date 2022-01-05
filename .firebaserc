@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "angular-app2-tictactoe": {
+      "hosting": {
+        "angular-app2-tic-tacToe": [
+          "angular-app2-tictactoe"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "angular-app2-tictactoe"
+  }
+}
