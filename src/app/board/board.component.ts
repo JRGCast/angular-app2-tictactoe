@@ -2,7 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 
 interface PlayerObj {
   playerName: string,
-  playerSign: 'X' | 'O'
+  playerSign: 'X' | 'O',
+  playerPoints: 0
 }
 
 @Component({
@@ -13,25 +14,30 @@ interface PlayerObj {
 export class BoardComponent implements OnInit {
   @Input() public player1: PlayerObj = {
     playerName: 'Player 1',
-    playerSign: 'X'
+    playerSign: 'X',
+    playerPoints: 0
   }
   @Input() public player2: PlayerObj = {
     playerName: 'Player 2',
-    playerSign: 'O'
+    playerSign: 'O',
+    playerPoints: 0
   }
   public allSquares!: Array<string>
   private xTurn!: boolean
   public theWinner!: string | null
+  public showBoard: boolean = false
   constructor() { }
 
   ngOnInit(): void {
-    this.newGame()
+    // this.newGame()
   }
 
   public newGame(): void {
     this.allSquares = Array(9).fill('')
     this.theWinner = null
     this.xTurn = true
+    this.showBoard = true
+    console.log('pressed', this.showBoard)
   }
 
   public playerNaming(currPlayer: 1 | 2, name: Event | null): void {
@@ -46,9 +52,9 @@ export class BoardComponent implements OnInit {
   public playerAction(index: number): void {
     if (!this.allSquares[index]) {
       this.allSquares.splice(index, 1, this.currPlayer.playerSign)
+      this.getTheWinner()
       this.xTurn = !this.xTurn
     }
-    this.getTheWinner()
   }
   public getTheWinner() {
     const lines = [
@@ -68,7 +74,15 @@ export class BoardComponent implements OnInit {
         this.allSquares[a] === this.allSquares[b] &&
         this.allSquares[a] === this.allSquares[c]
       ) {
-        this.theWinner = this.currPlayer.playerName
+        if (this.xTurn) {
+          this.player1.playerPoints += 1;
+          this.theWinner = this.player1.playerName
+
+        } else {
+          this.player2.playerPoints += 1;
+          this.theWinner = this.player2.playerName
+        }
+        this.showBoard = false
       }
     }
     return null;

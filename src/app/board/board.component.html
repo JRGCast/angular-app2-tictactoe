@@ -1,12 +1,12 @@
 <div style="display: flex; flex-direction: column; text-align: center;">
-  <button style="margin: 0 auto; width: fit-content;" nbButton hero status="danger" (click)="newGame()"> Start new Game </button>
   <div>
-    <div style="display: flex; justify-content: space-between; flex-direction: row wrap; margin: 0 auto; width: 30%;">
-      <button style="margin: 1em" nbButton hero status="success" [nbPopover]="player1Naming">Player 1 name</button>
+    <div style="display: flex; justify-content: space-between; flex-direction: row wrap; margin: 0 auto; width: 80%;">
+      <button style="margin: 1em" nbButton hero status="success" [nbPopover]="player1Naming"
+        nbPopoverPlacement="left">Inserir o nome do jogador 'X'</button>
       <ng-template #player1Naming>
         <input type="text" placeholder="Player 1 name?" maxlength="15" (input)="playerNaming(1, $event)" />
       </ng-template>
-      <button style="margin: 1em" nbButton hero status="info" [nbPopover]="player2Naming">Player 2 name</button>
+      <button style="margin: 1em" nbButton hero status="info" [nbPopover]="player2Naming">Inserir o nome do jogador 'O'</button>
       <ng-template #player2Naming>
         <input type="text" placeholder="Player 2 name?" maxlength="15" (input)="playerNaming(2, $event)" />
       </ng-template>
@@ -17,21 +17,27 @@
       style="margin: 0 auto; display: flex; flex-direction: row wrap; width: 50%; justify-content: space-between;">
       <div style="width: 50%; margin: 1em; border: 1px solid green;">
         <h5>'X' Player: {{player1.playerName}}</h5>
+        <span>Points {{player1.playerPoints}}</span>
       </div>
       <div style="width: 50%; margin: 1em; border: 1px solid blue;">
         <h5>'O' Player: {{player2.playerName}}</h5>
+        <span>Points {{player2.playerPoints}}</span>
       </div>
     </section>
   </div>
   <!-- Winner -->
-  <section *ngIf="theWinner else gameOn">
-    <h1>Winner is {{theWinner}}</h1>
+  <div [hidden]="showBoard">
+    <button style="margin: 0 auto; width: fit-content;" nbButton hero status="danger" (click)="newGame()"> Start new
+      Game </button>
+  </div>
+  <section *ngIf="theWinner">
+    <h3>Winner is {{theWinner}}</h3>
   </section>
-  <ng-template #gameOn>
+  <div style="margin: 0 auto;" [hidden]="!showBoard">
     <p>É a vez de {{currPlayer.playerName}}</p>
-    <main style="margin: 0 auto;">
+    <main>
       <ticTacToe-cell *ngFor="let cell of allSquares; let i = index" [cellValue]="cell" (click)="playerAction(i)">
       </ticTacToe-cell>
     </main>
-  </ng-template>
+  </div>
 </div>
